@@ -45,14 +45,14 @@ export default {
 <style lang="less" scoped>
 .overview-text {
     font-size: 20px;
-    margin: 20px;
+    margin: 20px 0;
     color: #555;
 }
 
 .overview {
     width: 1285px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     .item {
         display: flex;
         width: 210px;

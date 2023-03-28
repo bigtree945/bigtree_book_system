@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-03-21 09:45:40
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-03-22 15:41:08
+ * @LastEditTime: 2023-03-22 17:00:20
  * @FilePath: \my-project\src\views\home\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -72,15 +72,16 @@ export default {
 
 <style lang="less" scoped>
 .chart {
-    display: inline-flex;
+    display: flex;
+    justify-content: space-between;
     width: 1285px;
     flex-wrap: wrap;
+    margin: 15px 0 50px;
 
     .item {
-        width: 610px;
+        width: 630px;
         height: 433px;
-        margin-top: 30px;
-        margin: 30px 15px;
+        margin: 15px 0;
     }
 
     .a-item {

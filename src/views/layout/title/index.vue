@@ -5,10 +5,10 @@
         </div>
         <el-dropdown>
             <span class="el-dropdown-link">
-                <div class="portrait">
-                    <img src="../images/u5348.svg" alt="">
-                </div>
-                <span>{{ uname }}</span>
+                <el-avatar v-if="userInfo.avatar">
+                    <img :src="require(`../images/${userInfo.avatar}.svg`)" alt="图片出不来">
+                </el-avatar>
+                <span>{{ userInfo.uname }}</span>
                 <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -37,7 +37,7 @@ export default {
 
     data() {
         return {
-            uname: '',
+            userInfo: {},
             dialogVisible: false,
         };
     },
@@ -50,7 +50,7 @@ export default {
         // 获取用户信息
         async getUserInfo() {
             let { code, data } = await this.$api.getUserInfo()
-            if (code == 200) this.uname = data.uname
+            if (code == 200) this.userInfo = data
         },
         // 退出功能
         exit(e) {
@@ -81,20 +81,16 @@ export default {
         align-items: center;
         cursor: pointer;
 
-        .portrait {
+        .el-avatar {
             width: 40px;
             height: 40px;
-            background-color: #197cfe;
-            text-align: center;
-            padding-top: 8px;
-            box-sizing: border-box;
-            border-radius: 50%;
-            margin-right: 10px;
+            margin: 0 10px;
+            background-color: #006eff;
 
             img {
                 width: 24px;
                 height: 24px;
-
+                margin: 8px auto;
             }
         }
     }
