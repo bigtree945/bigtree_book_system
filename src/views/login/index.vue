@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-03-20 15:33:59
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-03-21 13:24:05
+ * @LastEditTime: 2023-03-30 13:19:49
  * @FilePath: \my-project\src\views\login\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -18,8 +18,8 @@
                         <template slot="label">
                             <div class="label" ref="uname">账号</div>
                         </template>
-                        <el-input type="text" v-model="user.uname" placeholder="请输入账号" @focus="changeStyle('focus', 'uname')"
-                            @blur="changeStyle('blur', 'uname')"></el-input>
+                        <el-input type="text" v-model="user.uname" placeholder="请输入账号"
+                            @focus="changeStyle('focus', 'uname')" @blur="changeStyle('blur', 'uname')"></el-input>
                     </el-form-item>
                     <el-form-item prop="upass">
                         <template slot="label">
@@ -71,31 +71,31 @@ export default {
             else this.$refs[ref].style.color = "#000"
         },
         async submitForm(user) {
-    // 校验表单
-    if (user.uname === "" || user.upass === "") {
-        this.$message({
-            message: '请填写账号或密码',
-            type: 'warning'
-        });
-        return
-    }
+            // 校验表单
+            if (user.uname === "" || user.upass === "") {
+                this.$message({
+                    message: '请填写账号或密码',
+                    type: 'warning'
+                });
+                return
+            }
 
-    try {
-        // 发送请求登录
-        let { code, data } = await this.$api.login(user)
-        // 判断状态码确定是否登录成功
-        if (code == 200) {
-            // 存储token
-            window.localStorage.setItem("token", data.token)
-            // 路由跳转到首页
-            this.$router.push('/')
-        } else {
-            this.$message.error('用户名或密码不正确');
+            try {
+                // 发送请求登录
+                let { code, data } = await this.$api.login(user)
+                // 判断状态码确定是否登录成功
+                if (code == 200) {
+                    // 存储token
+                    window.localStorage.setItem("token", data.token)
+                    // 路由跳转到首页
+                    this.$router.push('/')
+                } else {
+                    this.$message.error('用户名或密码不正确');
+                }
+            } catch (e) {
+                console.log(e);
+            }
         }
-    } catch (e) {
-        console.log(e);
-    }
-}
     },
 };
 </script>
@@ -192,4 +192,5 @@ export default {
             margin-left: 5px;
         }
     }
-}</style>
+}
+</style>
