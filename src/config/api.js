@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-03-21 10:29:58
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-03-30 20:49:09
+ * @LastEditTime: 2023-04-01 16:33:00
  * @FilePath: \my-project\src\config\api.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -24,6 +24,8 @@ export const getBookDetail = (data={})=>post("/book-info",data)
 export const getBookMonitor = (params={})=>mockGet("/book-monitor",params)
 // 预约体检页
 export const getBookingCheckup = (params={})=>mockPost("/book-checkup",params)
+//医生管理页
+export const getDoctor = (params={})=>mockPost("/doctor-management",params)
+export const search = (params={})=>mockPost("/search",params)
 
 
-// export const test = (data={})=>post("/test",data)
