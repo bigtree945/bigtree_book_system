@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-02-20 20:21:14
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-04-01 15:54:53
+ * @LastEditTime: 2023-04-06 16:59:44
  * @FilePath: \my-project\src\views\content\systemSettings\changePassword.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -14,7 +14,7 @@
                 <span>修改密码</span>
             </div>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
-                label-position="left" hide-required-asterisk="true">
+                label-position="left" :hide-required-asterisk="true">
                 <el-form-item label="新密码" prop="pass">
                     <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
                 </el-form-item>
@@ -83,7 +83,12 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                    this.$message({
+                        type:'success',
+                        message: '修改密码成功，请重新登录'
+                    })
+                    sessionStorage.removeItem('token')
+                    this.$router.push('/login')
                 } else {
                     console.log('error submit!!');
                     return false;

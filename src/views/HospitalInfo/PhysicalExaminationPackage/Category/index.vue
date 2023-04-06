@@ -10,7 +10,7 @@
             </el-table-column>
             <el-table-column label="项目状态"  width="150">
                 <template slot-scope="{row}">
-                    <el-switch v-model="row.state" active-color="#006eff" inactive-color="#ccc" width="50" border>
+                    <el-switch v-model="row.state" active-color="#006eff" inactive-color="#ccc" border>
                     </el-switch>
                 </template>
             </el-table-column>

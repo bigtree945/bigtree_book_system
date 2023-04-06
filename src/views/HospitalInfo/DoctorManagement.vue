@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-02-20 20:10:16
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-04-01 22:17:40
+ * @LastEditTime: 2023-04-06 15:59:58
  * @FilePath: \my-project\src\views\content\hospitalInfo\doctorManagement.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -41,22 +41,22 @@
                 </el-table-column>
                 <el-table-column label="标签" width="250">
                     <template slot-scope="{row,$index}">
-                        <el-tag :type="item.type" v-for="item in row.tag">{{item.disease}}</el-tag>
+                        <el-tag :type="item.type" v-for="item in row.tag">{{ item.disease }}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="profile" label="医生简介" width="250" class-name="profile">
                 </el-table-column>
                 <el-table-column label="操作" width="150">
                     <template slot-scope="{row,$index}">
-                        <i class="iconfont icon-Editwritedraft"></i>
-                        <i class="el-icon-delete-solid"></i>
+                        <i class="iconfont icon-Editwritedraft" @click="goEdit(row)"></i>
+                        <i class="el-icon-delete-solid" @click="deleteRow(row)"></i>
                     </template>
                 </el-table-column>
             </el-table>
             <!-- 分页器 -->
             <el-pagination :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="pageSize"
                 layout="total, prev, pager, next, sizes, jumper,slot" :total="tableData.total || 0" prev-text="上一页"
-                next-text="下一页" @current-change="handleCurrentChange" @size-change="handleSizeChange">
+                next-text="下一页" @current-change="getData" @size-change="handleSizeChange">
                 <el-button>确定</el-button>
             </el-pagination>
         </el-card>
@@ -120,32 +120,68 @@ export default {
     },
 
     methods: {
-        async getData(){
-            let res = await this.$api.getDoctor()
-            if(res.code == 200) {
+        async getData(currentPage = 1,total) {
+            this.currentPage = currentPage;
+            let res = await this.$api.getDoctor({
+                currentPage: this.currentPage,
+                pageSize: this.pageSize,
+                total
+            })
+            if (res.code == 200) {
                 this.tableData = res.data
             }
         },
-        async search(){
-            if(this.cascaderValue== "" && this.inputValue == "") {
+        async search() {
+            if (this.cascaderValue == "" && this.inputValue == "") {
                 return this.$message({
-                    type:"warning",
+                    type: "warning",
                     message: "请输入内容"
                 })
             }
             let res = await this.$api.search({
-                cascaderValue:this.cascaderValue,
-                inputValue:this.inputValue
+                cascaderValue: this.cascaderValue,
+                inputValue: this.inputValue
             })
-            if(res.code == 200) {
+            if (res.code == 200) {
                 this.tableData = res.data
             }
             this.cascaderValue = []
             this.inputValue = ''
         },
-        handleCurrentChange(currentPage) {
-            this.currentPage = currentPage
-            this.getData()
+        goEdit(row) {
+            this.$router.push({
+                name: 'edit',
+                params: {
+                    id: row.id,
+                }
+            })
+        },
+        deleteRow(row) {
+            this.$confirm(`<div>
+            <div class="delete-confirm">删除确认</div>
+            <div class="tip">删除后无法恢复，确定要删除此条信息吗?</div>
+        </div>`, {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                // type: 'warning',
+                iconClass: 'iconfont icon-confirm blue',
+                customClass: 'confine-width',
+                center: true,
+                showClose: false,
+                dangerouslyUseHTMLString: true
+            }).then(() => {
+                this.getData(this.currentPage,1)
+                this.$message({
+                    type: 'success',
+                    message: '删除成功'
+                });
+            }).catch((e) => {
+                console.log(e);
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         },
         handleSizeChange(pageSize) {
             this.pageSize = pageSize
@@ -206,7 +242,9 @@ export default {
             //设置或检索伸缩盒子对象的子元素的排列方式
             -webkit-box-orient: vertical;
         }
-        .icon-Editwritedraft,.el-icon-delete-solid{
+
+        .icon-Editwritedraft,
+        .el-icon-delete-solid {
             margin: 0 15px;
             background-color: #fff;
             color: #006eff;
@@ -265,5 +303,21 @@ export default {
             font-size: 12px;
         }
     }
+
+    //messageBox
+}
+</style>
+<style>
+.confine-width {
+    width: 400px;
+}
+
+.delete-confirm {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.tip {
+    color: #999;
 }
 </style>

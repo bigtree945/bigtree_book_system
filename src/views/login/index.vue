@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-03-20 15:33:59
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-03-30 13:19:49
+ * @LastEditTime: 2023-04-06 16:58:10
  * @FilePath: \my-project\src\views\login\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -86,7 +86,7 @@ export default {
                 // 判断状态码确定是否登录成功
                 if (code == 200) {
                     // 存储token
-                    window.localStorage.setItem("token", data.token)
+                    window.sessionStorage.setItem("token", data.token)
                     // 路由跳转到首页
                     this.$router.push('/')
                 } else {

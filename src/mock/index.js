@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-03-30 13:33:22
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-04-01 22:15:54
+ * @LastEditTime: 2023-04-06 16:40:20
  * @FilePath: \my-project\src\mock\mockServe.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -68,11 +68,14 @@ Mock.mock(/\/mock\/book-checkup(\?.*)?/, 'post', (options) => {
 })
 
 //医生管理页数据
-Mock.mock(/\/mock\/doctor-management/, 'post', () => {
+Mock.mock(/\/mock\/doctor-management/, 'post', (options) => {
+    let { pageSize, total } = JSON.parse(options.body)
     return Mock.mock({
         code: 200,
         data: {
-            ['doctor|10']: [{
+            total: total == 1 ? 999 : 1000,
+            ['doctor|' + pageSize]: [{
+                'id|+1': 1,
                 name: '@cname',
                 avatar: "@url",
                 'region|1': ['东院', '西院', '南院', '北院', '中院'],
@@ -104,7 +107,7 @@ Mock.mock(/\/mock\/doctor-management/, 'post', () => {
     })
 })
 Mock.mock('/mock/search', 'post', (options) => {
-    let { cascaderValue, inputValue } = JSON.parse(options.body)
+    let { cascaderValue, inputValue, pageSize } = JSON.parse(options.body)
     let cascader = ''
     if (cascaderValue.length > 0) {
         cascader = cascaderValue[0] + cascaderValue[1]
@@ -112,7 +115,9 @@ Mock.mock('/mock/search', 'post', (options) => {
     return Mock.mock({
         code: 200,
         data: {
-            [inputValue ? 'doctor' : 'doctor|10']: [{
+            total: 1000,
+            [inputValue ? 'doctor' : 'doctor|' + pageSize]: [{
+                'id|+1': 1,
                 name: inputValue || '@cname',
                 avatar: "@url",
                 'region|1': ['东院', '西院', '南院', '北院', '中院'],
@@ -143,4 +148,26 @@ Mock.mock('/mock/search', 'post', (options) => {
         message: "请求成功"
     })
 
+})
+
+// 体检套餐页数据
+Mock.mock('/mock/set-meal', 'get', ({ url }) => {
+    return Mock.mock({
+        code: 200,
+        data: {
+            total: 100,
+            'setMeal|10': [{
+                'id|+1': 'SWTT00' + 1,
+                'name|1': ['男性套餐A', '女性套餐A', '老年人套餐A', '入职套餐A'],
+                imgURL: '@image("250x250","#e6f1ff")',
+                'type|1': ['男性套餐', '女性套餐', '老年人套餐', '入职套餐'],
+                'region|1': ['东院', '南院', '西院', '北院'],
+                price: '@float(1000,10000,2,2)',
+                project: '一般检查,内科检查,外科检查,血常规,尿常规,肝功能常规',
+                "state|1": [true, false],
+            }],
+
+        },
+        message: "请求成功"
+    })
 })

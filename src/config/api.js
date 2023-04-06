@@ -23,9 +23,12 @@ export const getBookDetail = (data={})=>post("/book-info",data)
 // 预约核酸检测页
 export const getBookMonitor = (params={})=>mockGet("/book-monitor",params)
 // 预约体检页
-export const getBookingCheckup = (params={})=>mockPost("/book-checkup",params)
-//医生管理页
-export const getDoctor = (params={})=>mockPost("/doctor-management",params)
-export const search = (params={})=>mockPost("/search",params)
+export const getBookingCheckup = (data={})=>mockPost("/book-checkup",data)
+// 医生管理页
+export const getDoctor = (data={})=>mockPost("/doctor-management",data)
+export const search = (data={})=>mockPost("/search",data)
+
+// 体检套餐页
+export const getSetMeal = (params={})=>mockGet("/set-meal",params)
 
 

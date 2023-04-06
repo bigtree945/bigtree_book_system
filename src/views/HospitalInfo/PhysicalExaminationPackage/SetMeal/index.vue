@@ -18,26 +18,26 @@
             header-cell-class-name="header-style">
             <el-table-column type="selection">
             </el-table-column>
-            <el-table-column prop="name" label="套餐ID">
+            <el-table-column prop="id" label="套餐ID">
             </el-table-column>
             <el-table-column prop="name" label="套餐名称">
             </el-table-column>
             <el-table-column label="套餐图片">
                 <template slot-scope="{row}">
-                    <div class="image"></div>
+                    <img :src="row.imgURL" alt="" class="image">
                 </template>
             </el-table-column>
-            <el-table-column prop="name" label="套餐类型">
+            <el-table-column prop="type" label="套餐类型">
             </el-table-column>
-            <el-table-column prop="name" label="适用院区">
+            <el-table-column prop="region" label="适用院区">
             </el-table-column>
-            <el-table-column prop="name" label="套餐价格（元）">
+            <el-table-column prop="price" label="套餐价格（元）">
             </el-table-column>
-            <el-table-column prop="address" label="套餐项目" width="300">
+            <el-table-column prop="project" label="套餐项目" width="300">
             </el-table-column>
             <el-table-column label="套餐状态">
                 <template slot-scope="{row}">
-                    <el-switch v-model="row.state" active-color="#006eff" inactive-color="#ccc" width="50" border>
+                    <el-switch v-model="row.state" active-color="#006eff" inactive-color="#ccc" border>
                     </el-switch>
                 </template>
             </el-table-column>
@@ -50,8 +50,8 @@
         </el-table>
         <!-- 分页器 -->
         <el-pagination :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="pageSize"
-            layout="total, prev, pager, next, sizes, jumper,slot" :total="tableData.total || 0" prev-text="上一页"
-            next-text="下一页" @current-change="handleCurrentChange" @size-change="handleSizeChange">
+            layout="total, prev, pager, next, sizes, jumper,slot" :total="total || 0" prev-text="上一页" next-text="下一页"
+            @current-change="handleCurrentChange" @size-change="handleSizeChange">
             <el-button>确定</el-button>
         </el-pagination>
     </div>
@@ -64,53 +64,38 @@ export default {
     data() {
         return {
             options: [{
-                value: '选项1',
-                label: '黄金糕'
+                value: '男性套餐',
+                label: '男性套餐'
             }, {
-                value: '选项2',
-                label: '双皮奶'
+                value: '女性套餐',
+                label: '女性套餐'
             }, {
-                value: '选项3',
-                label: '蚵仔煎'
+                value: '老年人套餐',
+                label: '老年人套餐'
             }, {
-                value: '选项4',
-                label: '龙须面'
-            }, {
-                value: '选项5',
-                label: '北京烤鸭'
+                value: '入职套餐',
+                label: '入职套餐'
             }],
             value: '',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄',
-                state:false
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄',
-                state:false
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄',
-                state:false
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄',
-                state:false
-            }],
+            tableData: [],
             currentPage: 1,
-            pageSize: 10
+            pageSize: 10,
+            total: 0
         };
     },
 
     mounted() {
-
+        this.getData()
     },
 
     methods: {
+        async getData() {
+            let res = await this.$api.getSetMeal()
+            if (res.code == 200) {
+                this.tableData = res.data.setMeal
+                this.total = res.data.total
+            }
+        },
         handleCurrentChange(currentPage) {
             this.currentPage = currentPage
             this.getData()
@@ -126,6 +111,7 @@ export default {
 <style lang="less" scoped>
 .el-form {
     margin-top: 15px;
+
     .el-select {
         width: 160px;
     }

@@ -12,7 +12,8 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-                <span><el-dropdown-item>修改密码</el-dropdown-item></span>
+                <!-- <span><el-dropdown-item>修改密码</el-dropdown-item></span> -->
+                <router-link to="/system-settings/change-password"><el-dropdown-item>修改密码</el-dropdown-item></router-link>
                 <span @click="dialogVisible = true"><el-dropdown-item>退出</el-dropdown-item></span>
             </el-dropdown-menu>
         </el-dropdown>
@@ -96,6 +97,9 @@ export default {
     }
 }
 
+a{
+    text-decoration: none;
+}
 // 退出确认遮罩层
 .el-dialog {
 

@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-03-20 15:39:03
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-03-24 16:36:50
+ * @LastEditTime: 2023-04-06 16:58:45
  * @FilePath: \my-project\src\router\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -39,6 +39,15 @@ const routes = [
                     title: "详情"
                 },
                 component: () => import("@/views/Detail"),
+            },
+            {
+                path: "edit/:id",
+                name: "edit",
+                meta: {
+                    isAuth: true,
+                    title: "编辑医生信息"
+                },
+                component: () => import("@/views/Edit"),
             },
         ]
     },
@@ -77,7 +86,7 @@ router.beforeEach((to, from, next) => {
     // 查看目标路由是否需要权限
     if (to.meta.isAuth) {
         // 查看本地是否有token
-        if (!localStorage.getItem("token")) {
+        if (!sessionStorage.getItem("token")) {
             router.replace("/login", () => { })
         }
     }
