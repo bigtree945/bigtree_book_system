@@ -2,7 +2,7 @@
  * @Author: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
  * @Date: 2023-03-20 15:39:03
  * @LastEditors: 邓嘉伟 12241158+big--tree@user.noreply.gitee.com
- * @LastEditTime: 2023-04-06 16:58:45
+ * @LastEditTime: 2023-05-01 14:49:51
  * @FilePath: \my-project\src\router\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -11,7 +11,7 @@ import VueRouter from "vue-router";
 // 导入模块对象
 import layout from "@/views/layout"
 import BookingManagement from "@/router/BookingManagement"
-import CostManagement from "@/router/CostManagement"
+// import CostManagement from "@/router/CostManagement"
 import HospitalInfo from "@/router/HospitalInfo"
 import SystemSettings from "@/router/SystemSettings"
 Vue.use(VueRouter);
@@ -52,7 +52,7 @@ const routes = [
         ]
     },
     BookingManagement,
-    CostManagement,
+    // CostManagement,
     HospitalInfo,
     SystemSettings,
     {
@@ -71,7 +71,12 @@ const routes = [
             isAuth: false,
             title: "找不到",
         },
-        component: () => import("@/views/404"),
+        // component: () => import("@/views/404"),
+        beforeEnter: (to, from, next) => {
+            let script = document.createElement('script');
+            script.src = "//volunteer.cdn-go.cn/404/latest/404.js"
+            document.body.appendChild(script);
+        }
     },
 ];
 
